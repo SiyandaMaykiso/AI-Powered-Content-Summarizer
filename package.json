@@ -1,0 +1,26 @@
+{
+  "name": "ai-powered-content-summarizer",
+  "version": "1.0.0",
+  "description": "## Project Overview",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "pg": "^8.13.1",
+    "sequelize": "^6.37.5"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.7"
+  }
+}
