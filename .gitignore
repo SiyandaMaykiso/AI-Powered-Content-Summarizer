@@ -1,0 +1,44 @@
+# Dependency directories
+node_modules/
+client/node_modules/
+
+# Environment variables
+.env
+client/.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+build/
+client/build/
+
+# Temporary files and folders
+tmp/
+temp/
+
+# Optional npm cache directory
+.npm
+
+# Editor and OS-specific files
+.DS_Store
+Thumbs.db
+
+# Debugger and IDE settings
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+
+# Testing and Coverage
+coverage/
+*.cover
