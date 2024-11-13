@@ -1,5 +1,5 @@
 // Import necessary modules
-const { Summary } = require('../models'); // Assuming you have a Summary model
+const Summary = require('../models/Summary'); // Import Summary model directly
 const OpenAI = require('openai'); // Example of AI integration, if using OpenAI API
 
 // Summarize content
