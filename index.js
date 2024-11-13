@@ -1,11 +1,10 @@
+// Load environment variables from .env file
+require('dotenv').config();
+
 // Import required modules
 const express = require('express');
-const dotenv = require('dotenv');
 const cors = require('cors');
 const { sequelize } = require('./config/db'); // Import Sequelize instance
-
-// Load environment variables from .env file
-dotenv.config();
 
 // Initialize Express app
 const app = express();
@@ -27,16 +26,20 @@ app.get('/', (req, res) => {
   res.send('Welcome to the AI-Powered Content Summarizer API');
 });
 
-// Connect to Database and Start Server
-const PORT = process.env.PORT || 5000;
-
+// Connect to Database and Sync Models
 sequelize.authenticate()
   .then(() => {
     console.log('Database connected successfully.');
+    return sequelize.sync(); // Sync models with the database
+  })
+  .then(() => {
+    console.log('Database synced successfully.');
+    // Start Server
+    const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
   })
   .catch(err => {
-    console.error('Unable to connect to the database:', err);
+    console.error('Unable to connect to the database or sync models:', err);
   });
