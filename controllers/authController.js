@@ -1,6 +1,6 @@
 // Import necessary modules
 const jwt = require('jsonwebtoken');
-const { User } = require('../models'); // Assuming you have a User model
+const User = require('../models/User'); // Directly import the User model
 
 // Register user
 const register = async (req, res) => {
