@@ -1,25 +1,37 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Header from './components/Header';
+import SummaryInput from './components/SummaryInput';
+import SummaryDisplay from './components/SummaryDisplay';
+import RecommendationList from './components/RecommendationList';
 
-function App() {
+const App = () => {
+  const [summary, setSummary] = useState('');
+  const [recommendations, setRecommendations] = useState([]);
+
+  const handleSummarize = async (content) => {
+    try {
+      const response = await fetch('/api/summary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content }),
+      });
+      const data = await response.json();
+      setSummary(data.summary);
+      setRecommendations(data.recommendations || []);
+    } catch (error) {
+      console.error('Error summarizing content:', error);
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <SummaryInput onSummarize={handleSummarize} />
+      <SummaryDisplay summary={summary} />
+      <RecommendationList recommendations={recommendations} />
     </div>
   );
-}
+};
 
 export default App;
