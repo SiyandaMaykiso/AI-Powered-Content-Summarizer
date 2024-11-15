@@ -1,45 +1,103 @@
-// Load environment variables from .env file
-require('dotenv').config();
-
-// Import required modules
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors');
-const { sequelize } = require('./config/db'); // Import Sequelize instance
+const dotenv = require('dotenv');
+const path = require('path');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const authMiddleware = require('./middlewares/authMiddleware');
+const Summary = require('./models/Summary');
+const User = require('./models/User');
+const sequelize = require('./config/db');
+const { Configuration, OpenAIApi } = require('openai');
+
+// Load environment variables
+dotenv.config();
 
 // Initialize Express app
 const app = express();
 
 // Middleware
-app.use(express.json()); // Parse JSON bodies
-app.use(cors()); // Enable CORS for cross-origin requests
+app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:3000' }));
+app.use(bodyParser.json());
 
-// Import Routes
+// Initialize OpenAI API client
+const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+// Routes
 const authRoutes = require('./routes/authRoutes');
-const summaryRoutes = require('./routes/summaryRoutes');
+app.use('/', authRoutes);
 
-// Use Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/summary', summaryRoutes);
+// Static File Serving
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Root Route
 app.get('/', (req, res) => {
-  res.send('Welcome to the AI-Powered Content Summarizer API');
+    res.send('Welcome to the AI-Powered Content Summarizer API!');
 });
 
-// Connect to Database and Sync Models
-sequelize.authenticate()
-  .then(() => {
-    console.log('Database connected successfully.');
-    return sequelize.sync(); // Sync models with the database
-  })
-  .then(() => {
-    console.log('Database synced successfully.');
-    // Start Server
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+// Summarization Route
+app.post('/summarize', authMiddleware, async (req, res) => {
+    try {
+        const { content } = req.body;
+        if (!content) {
+            return res.status(400).json({ error: 'Content is required for summarization.' });
+        }
+
+        // Use GPT-4o Mini for summarization
+        const response = await openai.createChatCompletion({
+            model: 'gpt-4o-mini',
+            messages: [
+                { role: 'system', content: 'You are a professional text summarizer.' },
+                { role: 'user', content: `Summarize this content in a concise and clear way:\n\n${content}` },
+            ],
+            max_tokens: 200, // Customize based on expected output length
+            temperature: 0.5, // Lower temperature for more focused summaries
+        });
+
+        const summary = response.data.choices[0].message.content.trim();
+
+        // Save the summary to the database
+        await Summary.create({
+            userId: req.user.id,
+            content,
+            summary,
+        });
+
+        res.json({ summary });
+    } catch (error) {
+        console.error('Error summarizing content:', error.message);
+        res.status(500).json({ error: 'Failed to summarize content' });
+    }
+});
+
+// Summary History Route
+app.get('/summaryhistory', authMiddleware, async (req, res) => {
+    try {
+        const summaries = await Summary.findAll({ where: { userId: req.user.id } });
+        res.json({ summaryHistory: summaries });
+    } catch (error) {
+        console.error('Error fetching summary history:', error.message);
+        res.status(500).json({ error: 'An error occurred while fetching summary history' });
+    }
+});
+
+// Handle All Other Routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build/index.html'));
+});
+
+// Sync Database and Start Server
+sequelize.sync({ force: false })
+    .then(() => {
+        const PORT = process.env.PORT || 3001;
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    })
+    .catch(err => {
+        console.error('Unable to sync database:', err.message);
     });
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database or sync models:', err);
-  });
