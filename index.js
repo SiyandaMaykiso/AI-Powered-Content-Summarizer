@@ -9,7 +9,7 @@ const authMiddleware = require('./middlewares/authMiddleware');
 const Summary = require('./models/Summary');
 const User = require('./models/User');
 const sequelize = require('./config/db');
-const { Configuration, OpenAIApi } = require('openai');
+const { OpenAIApi } = require('openai');
 
 // Load environment variables
 dotenv.config();
@@ -22,14 +22,13 @@ app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:3000' }));
 app.use(bodyParser.json());
 
 // Initialize OpenAI API client
-const configuration = new Configuration({
+const openai = new OpenAIApi({
     apiKey: process.env.OPENAI_API_KEY,
 });
-const openai = new OpenAIApi(configuration);
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
-app.use('/', authRoutes);
+app.use('/api/auth', authRoutes);
 
 // Static File Serving
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -40,7 +39,7 @@ app.get('/', (req, res) => {
 });
 
 // Summarization Route
-app.post('/summarize', authMiddleware, async (req, res) => {
+app.post('/api/summarize', authMiddleware, async (req, res) => {
     try {
         const { content } = req.body;
         if (!content) {
@@ -75,7 +74,7 @@ app.post('/summarize', authMiddleware, async (req, res) => {
 });
 
 // Summary History Route
-app.get('/summaryhistory', authMiddleware, async (req, res) => {
+app.get('/api/summaryhistory', authMiddleware, async (req, res) => {
     try {
         const summaries = await Summary.findAll({ where: { userId: req.user.id } });
         res.json({ summaryHistory: summaries });
