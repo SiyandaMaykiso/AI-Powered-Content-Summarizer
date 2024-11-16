@@ -1,0 +1,51 @@
+.
+├── client
+│   ├── public
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── logo192.png
+│   │   ├── logo512.png
+│   │   ├── manifest.json
+│   │   └── robots.txt
+│   ├── src
+│   │   ├── components
+│   │   │   ├── Header.js
+│   │   │   ├── RecommendationList.js
+│   │   │   ├── SummaryDisplay.js
+│   │   │   └── SummaryInput.js
+│   │   ├── App.css
+│   │   ├── App.js
+│   │   ├── App.test.js
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── logo.svg
+│   │   ├── reportWebVitals.js
+│   │   └── setupTests.js
+│   ├── .gitignore
+│   ├── README.md
+│   ├── package-lock.json
+│   └── package.json
+├── config
+│   ├── config.js
+│   └── db.js
+├── controllers
+│   ├── authController.js
+│   └── summaryController.js
+├── middlewares
+│   └── authMiddleware.js
+├── models
+│   ├── Summary.js
+│   └── User.js
+├── routes
+│   ├── authRoutes.js
+│   └── summaryRoutes.js
+├── .env
+├── .gitignore
+├── Procfile
+├── README.md
+├── index.js
+├── package-lock.json
+├── package.json
+└── project-structure.txt
+
+10 directories, 39 files
