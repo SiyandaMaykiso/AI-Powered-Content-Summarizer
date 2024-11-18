@@ -9,7 +9,7 @@ const authMiddleware = require('./middlewares/authMiddleware');
 const Summary = require('./models/Summary');
 const User = require('./models/User');
 const sequelize = require('./config/db');
-const { OpenAIApi } = require('openai');
+const { Configuration, OpenAIApi } = require('openai');
 
 // Load environment variables
 dotenv.config();
@@ -22,9 +22,10 @@ app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:3000' }));
 app.use(bodyParser.json());
 
 // Initialize OpenAI API client
-const openai = new OpenAIApi({
+const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
 });
+const openai = new OpenAIApi(configuration);
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
