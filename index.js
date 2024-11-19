@@ -3,13 +3,13 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const authMiddleware = require('./middlewares/authMiddleware');
 const Summary = require('./models/Summary');
 const User = require('./models/User');
-const sequelize = require('./config/db');
-const { Configuration, OpenAIApi } = require('openai');
+const sequelize = require('./config/db'); // Ensure the correct import
+const axios = require('axios');
 
 // Load environment variables
 dotenv.config();
@@ -20,12 +20,6 @@ const app = express();
 // Middleware
 app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:3000' }));
 app.use(bodyParser.json());
-
-// Initialize OpenAI API client
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
@@ -47,16 +41,25 @@ app.post('/api/summarize', authMiddleware, async (req, res) => {
             return res.status(400).json({ error: 'Content is required for summarization.' });
         }
 
-        // Use GPT-4o Mini for summarization
-        const response = await openai.createChatCompletion({
-            model: 'gpt-4o-mini',
-            messages: [
-                { role: 'system', content: 'You are a professional text summarizer.' },
-                { role: 'user', content: `Summarize this content in a concise and clear way:\n\n${content}` },
-            ],
-            max_tokens: 200, // Customize based on expected output length
-            temperature: 0.5, // Lower temperature for more focused summaries
-        });
+        // Call OpenAI API for summarization
+        const response = await axios.post(
+            'https://api.openai.com/v1/chat/completions',
+            {
+                model: 'gpt-4o-mini',
+                messages: [
+                    { role: 'system', content: 'You are a professional text summarizer.' },
+                    { role: 'user', content: `Summarize this content in a concise and clear way:\n\n${content}` },
+                ],
+                max_tokens: 200,
+                temperature: 0.5,
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+                },
+            }
+        );
 
         const summary = response.data.choices[0].message.content.trim();
 
@@ -91,7 +94,12 @@ app.get('*', (req, res) => {
 });
 
 // Sync Database and Start Server
-sequelize.sync({ force: false })
+sequelize
+    .authenticate() // Verify connection to the database
+    .then(() => {
+        console.log('Database connected successfully.');
+        return sequelize.sync({ force: false }); // Sync models
+    })
     .then(() => {
         const PORT = process.env.PORT || 3001;
         app.listen(PORT, () => {
@@ -99,5 +107,5 @@ sequelize.sync({ force: false })
         });
     })
     .catch(err => {
-        console.error('Unable to sync database:', err.message);
+        console.error('Unable to connect to the database or sync models:', err.message);
     });

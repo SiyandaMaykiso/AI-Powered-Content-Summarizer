@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/db');
+const sequelize = require('../config/db'); // Import the sequelize instance directly
 
-const User = sequelize.define('User', {
+const User = sequelize.define('User', { // Use the sequelize instance to define the model
   username: {
     type: DataTypes.STRING,
     allowNull: false,
