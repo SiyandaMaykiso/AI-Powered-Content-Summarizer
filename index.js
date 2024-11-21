@@ -3,11 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const authMiddleware = require('./middlewares/authMiddleware');
 const Summary = require('./models/Summary');
-const User = require('./models/User');
 const sequelize = require('./config/db'); // Ensure the correct import
 const axios = require('axios');
 
