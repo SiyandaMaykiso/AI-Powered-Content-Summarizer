@@ -12,7 +12,10 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   protocol: 'postgres',
   logging: false, // Set to 'console.log' for debugging SQL queries
   dialectOptions: {
-    ssl: process.env.NODE_ENV === 'production' ? { require: true, rejectUnauthorized: false } : false,
+    ssl: {
+      require: true,
+      rejectUnauthorized: false, // Allow self-signed certificates
+    },
   },
 });
 
