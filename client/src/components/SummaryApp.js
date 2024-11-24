@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
 import SummaryInput from './SummaryInput';
 import SummaryDisplay from './SummaryDisplay';
+import api from '../api'; // Import the API instance
 
 const SummaryApp = () => {
     const [summary, setSummary] = useState('');
 
     const handleSummarize = async (content) => {
         try {
-            const response = await fetch('/api/summarize', {
-                method: 'POST',
+            const response = await api.post('/summarize', { content }, {
                 headers: {
-                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('authToken')}`, // Use token for authentication
                 },
-                body: JSON.stringify({ content }),
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                setSummary(data.summary); // Update summary state
+            if (response.status === 200) {
+                setSummary(response.data.summary); // Update summary state
             } else {
                 console.error('Failed to fetch summary');
             }
