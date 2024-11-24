@@ -1,5 +1,10 @@
 .
+├── Procfile
+├── README.md
 ├── client
+│   ├── README.md
+│   ├── package-lock.json
+│   ├── package.json
 │   ├── public
 │   │   ├── favicon.ico
 │   │   ├── index.html
@@ -7,45 +12,43 @@
 │   │   ├── logo512.png
 │   │   ├── manifest.json
 │   │   └── robots.txt
-│   ├── src
-│   │   ├── components
-│   │   │   ├── Header.js
-│   │   │   ├── RecommendationList.js
-│   │   │   ├── SummaryDisplay.js
-│   │   │   └── SummaryInput.js
-│   │   ├── App.css
-│   │   ├── App.js
-│   │   ├── App.test.js
-│   │   ├── index.css
-│   │   ├── index.js
-│   │   ├── logo.svg
-│   │   ├── reportWebVitals.js
-│   │   └── setupTests.js
-│   ├── .gitignore
-│   ├── README.md
-│   ├── package-lock.json
-│   └── package.json
+│   └── src
+│       ├── App.css
+│       ├── App.js
+│       ├── App.test.js
+│       ├── AppRouter.js
+│       ├── api.js
+│       ├── components
+│       │   ├── Header.js
+│       │   ├── Home.js
+│       │   ├── Login.js
+│       │   ├── Navbar.js
+│       │   ├── RecommendationList.js
+│       │   ├── Register.js
+│       │   ├── SummaryDisplay.js
+│       │   └── SummaryInput.js
+│       ├── index.css
+│       ├── index.js
+│       ├── logo.svg
+│       ├── reportWebVitals.js
+│       └── setupTests.js
 ├── config
 │   ├── config.js
 │   └── db.js
 ├── controllers
 │   ├── authController.js
 │   └── summaryController.js
+├── index.js
 ├── middlewares
 │   └── authMiddleware.js
 ├── models
 │   ├── Summary.js
 │   └── User.js
-├── routes
-│   ├── authRoutes.js
-│   └── summaryRoutes.js
-├── .env
-├── .gitignore
-├── Procfile
-├── README.md
-├── index.js
 ├── package-lock.json
 ├── package.json
-└── project-structure.txt
+├── project-structure.txt
+└── routes
+    ├── authRoutes.js
+    └── summaryRoutes.js
 
-10 directories, 39 files
+10 directories, 42 files
