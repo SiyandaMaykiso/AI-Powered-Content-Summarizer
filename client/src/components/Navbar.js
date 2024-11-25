@@ -1,8 +1,15 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('authToken'); // Clear the token
+        navigate('/login'); // Redirect to login page
+    };
+
     return (
         <AppBar position="static" sx={{ backgroundColor: '#1565c0', padding: '0 16px' }}>
             <Toolbar>
@@ -33,10 +40,18 @@ const Navbar = () => {
                     <Button 
                         color="inherit" 
                         component={Link} 
-                        to="/login" 
+                        to="/summarize" 
                         sx={{ fontWeight: 'bold', margin: '0 8px' }}
                     >
-                        Login
+                        Summarize
+                    </Button>
+                    <Button 
+                        color="inherit" 
+                        component={Link} 
+                        to="/history" 
+                        sx={{ fontWeight: 'bold', margin: '0 8px' }}
+                    >
+                        History
                     </Button>
                     <Button 
                         color="inherit" 
@@ -49,10 +64,17 @@ const Navbar = () => {
                     <Button 
                         color="inherit" 
                         component={Link} 
-                        to="/summarize" 
+                        to="/login" 
                         sx={{ fontWeight: 'bold', margin: '0 8px' }}
                     >
-                        Summarize
+                        Login
+                    </Button>
+                    <Button 
+                        color="inherit" 
+                        onClick={handleLogout} 
+                        sx={{ fontWeight: 'bold', margin: '0 8px' }}
+                    >
+                        Logout
                     </Button>
                 </Box>
             </Toolbar>
