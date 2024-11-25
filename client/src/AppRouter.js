@@ -20,7 +20,7 @@ const AppRouter = () => {
         <Router>
             <Navbar /> {/* Add the Navbar */}
             <Routes>
-                <Route path="/" element={<Home />} /> {/* Add the Home route */}
+                <Route path="/" element={<Home onLogin={handleLogin} />} /> {/* Pass onLogin */}
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login onLogin={handleLogin} />} />
                 <Route

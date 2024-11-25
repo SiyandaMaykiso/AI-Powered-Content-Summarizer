@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import api from '../api';
 
 const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -22,9 +20,6 @@ const Login = ({ onLogin }) => {
 
             // Clear any previous error messages
             setErrorMessage('');
-
-            // Redirect to the Summarize page
-            navigate('/summarize');
         } catch (error) {
             console.error('Login failed:', error.message);
             setErrorMessage('Invalid username or password. Please try again.');
@@ -32,33 +27,30 @@ const Login = ({ onLogin }) => {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
+        <form onSubmit={handleLogin}>
+            <div>
+                <label>Username:</label>
+                <input
+                    type="text"
+                    placeholder="Enter your username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
+            </div>
+            <div>
+                <label>Password:</label>
+                <input
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+            </div>
+            <button type="submit">Login</button>
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-            <form onSubmit={handleLogin}>
-                <div>
-                    <label>Username:</label>
-                    <input
-                        type="text"
-                        placeholder="Enter your username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input
-                        type="password"
-                        placeholder="Enter your password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Login</button>
-            </form>
-        </div>
+        </form>
     );
 };
 

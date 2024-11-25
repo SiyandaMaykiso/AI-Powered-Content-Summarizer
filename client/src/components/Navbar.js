@@ -7,7 +7,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('authToken'); // Clear the token
-        navigate('/login'); // Redirect to login page
+        navigate('/'); // Redirect to Home page
     };
 
     return (
@@ -52,22 +52,6 @@ const Navbar = () => {
                         sx={{ fontWeight: 'bold', margin: '0 8px' }}
                     >
                         History
-                    </Button>
-                    <Button 
-                        color="inherit" 
-                        component={Link} 
-                        to="/register" 
-                        sx={{ fontWeight: 'bold', margin: '0 8px' }}
-                    >
-                        Register
-                    </Button>
-                    <Button 
-                        color="inherit" 
-                        component={Link} 
-                        to="/login" 
-                        sx={{ fontWeight: 'bold', margin: '0 8px' }}
-                    >
-                        Login
                     </Button>
                     <Button 
                         color="inherit" 
