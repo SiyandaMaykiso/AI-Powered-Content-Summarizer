@@ -3,11 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import AppRouter from './AppRouter'; // Import AppRouter
 import reportWebVitals from './reportWebVitals';
+import { ThemeProvider, CssBaseline } from '@mui/material'; // Import MUI theme utilities
+import theme from './theme'; // Import your custom theme
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AppRouter /> {/* Use AppRouter instead of App */}
+    <ThemeProvider theme={theme}> {/* Apply theme globally */}
+      <CssBaseline /> {/* Reset CSS to ensure consistent styling */}
+      <AppRouter /> {/* Use AppRouter for routing */}
+    </ThemeProvider>
   </React.StrictMode>
 );
 

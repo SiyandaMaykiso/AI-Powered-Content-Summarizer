@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { TextField, Button, Typography, Box, Alert } from '@mui/material';
 import api from '../api';
 
 const Login = ({ onLogin }) => {
@@ -27,30 +28,57 @@ const Login = ({ onLogin }) => {
     };
 
     return (
-        <form onSubmit={handleLogin}>
-            <div>
-                <label>Username:</label>
-                <input
-                    type="text"
-                    placeholder="Enter your username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input
-                    type="password"
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-            </div>
-            <button type="submit">Login</button>
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        </form>
+        <Box
+            component="form"
+            onSubmit={handleLogin}
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '15px',
+            }}
+        >
+            <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#1565c0' }}>
+                Login
+            </Typography>
+
+            {/* Username Field */}
+            <TextField
+                label="Username"
+                variant="outlined"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                fullWidth
+            />
+
+            {/* Password Field */}
+            <TextField
+                label="Password"
+                type="password"
+                variant="outlined"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                fullWidth
+            />
+
+            {/* Error Message */}
+            {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+
+            {/* Submit Button */}
+            <Button
+                type="submit"
+                variant="contained"
+                sx={{
+                    backgroundColor: '#1565c0',
+                    '&:hover': {
+                        backgroundColor: '#0d47a1',
+                    },
+                }}
+            >
+                Login
+            </Button>
+        </Box>
     );
 };
 
