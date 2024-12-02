@@ -64,7 +64,7 @@ const Home = ({ onLogin }) => {
                                 color: '#1565c0',
                             }}
                         >
-                            Login
+                            
                         </Typography>
                         <Login onLogin={handleLogin} />
                     </Paper>
@@ -87,7 +87,7 @@ const Home = ({ onLogin }) => {
                                 color: '#1565c0',
                             }}
                         >
-                            Register
+                            
                         </Typography>
                         <Register onRegister={handleRegister} />
                     </Paper>
