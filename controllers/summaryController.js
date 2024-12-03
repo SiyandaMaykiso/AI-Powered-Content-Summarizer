@@ -1,6 +1,5 @@
 // Import necessary modules
 const Summary = require('../models/Summary'); // Import Summary model
-const OpenAI = require('openai'); // Example of AI integration, if using OpenAI API
 const pdfParse = require('pdf-parse'); // For PDF text extraction
 const mammoth = require('mammoth'); // For Word (.docx) text extraction
 
@@ -15,7 +14,7 @@ const summarizeContent = async (req, res) => {
     // Save summary to database
     const savedSummary = await Summary.create({ content, summary, userId: req.user.id });
 
-    res.json({ summary: savedSummary });
+    res.json({ summary: savedSummary.summary });
   } catch (error) {
     res.status(500).json({ error: 'Failed to summarize content', details: error.message });
   }
@@ -54,8 +53,9 @@ const summarizeFile = async (req, res) => {
     // Save summary to database
     const savedSummary = await Summary.create({ content: extractedText, summary, userId: req.user.id });
 
-    res.json({ summary: savedSummary });
+    res.json({ summary: savedSummary.summary });
   } catch (error) {
+    console.error('Error summarizing file:', error);
     res.status(500).json({ error: 'Failed to summarize file content', details: error.message });
   }
 };

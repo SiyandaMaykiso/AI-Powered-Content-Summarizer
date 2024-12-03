@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const summaryController = require('../controllers/summaryController');
 const authMiddleware = require('../middlewares/authMiddleware');
-const upload = require('../middlewares/fileUploadMiddleware'); // Import file upload middleware
+const upload = require('../middlewares/fileUploadMiddleware'); // Middleware for handling file uploads
 
 // Route to summarize text input
 router.post('/', authMiddleware, summaryController.summarizeContent);
