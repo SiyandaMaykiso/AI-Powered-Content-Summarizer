@@ -9,8 +9,8 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
         e.preventDefault();
         if (content.trim()) {
             setError('');
-            onSummarizeText(content); // Pass the text content to the parent component for API call
-            setContent(''); // Clear the input field after submission
+            onSummarizeText(content); // Call the onSummarizeText function passed as a prop
+            setContent(''); // Clear the text input field
         } else {
             setError('Content cannot be empty.');
         }
@@ -20,8 +20,8 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
         e.preventDefault();
         if (file) {
             setError('');
-            onSummarizeFile(file); // Pass the uploaded file to the parent component for API call
-            setFile(null); // Clear the file input after submission
+            onSummarizeFile(file); // Call the onSummarizeFile function passed as a prop
+            setFile(null); // Clear the file input
         } else {
             setError('Please select a file to upload.');
         }

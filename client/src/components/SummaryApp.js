@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import SummaryInput from './SummaryInput';
 import SummaryDisplay from './SummaryDisplay';
-import api from '../api'; // Import the API instance
+import api from '../api'; // Ensure correct API instance import
 
 const SummaryApp = () => {
     const [summary, setSummary] = useState('');
 
-    // Function to handle text summarization
-    const handleSummarize = async (content) => {
+    const handleSummarizeText = async (content) => {
         try {
             const response = await api.post('/summarize', { content }, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('authToken')}`, // Use token for authentication
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`,
                 },
             });
 
             if (response.status === 200) {
-                setSummary(response.data.summary); // Update summary state
+                setSummary(response.data.summary);
             } else {
                 console.error('Failed to fetch summary');
             }
@@ -25,33 +24,35 @@ const SummaryApp = () => {
         }
     };
 
-    // Function to handle file summarization
     const handleSummarizeFile = async (file) => {
         try {
             const formData = new FormData();
             formData.append('file', file);
 
-            const response = await api.post('/summarize/upload', formData, {
+            const response = await api.post('/summarize/file', formData, {
                 headers: {
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`,
                     'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${localStorage.getItem('authToken')}`, // Use token for authentication
                 },
             });
 
             if (response.status === 200) {
-                setSummary(response.data.summary); // Update summary state
+                setSummary(response.data.summary);
             } else {
-                console.error('Failed to summarize file');
+                console.error('Failed to fetch file summary');
             }
         } catch (error) {
-            console.error('Error summarizing file content:', error.message);
+            console.error('Error summarizing file:', error.message);
         }
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
+        <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
             <h1 style={{ textAlign: 'center', color: '#333' }}>AI-Powered Content Summarizer</h1>
-            <SummaryInput onSummarize={handleSummarize} onSummarizeFile={handleSummarizeFile} />
+            <SummaryInput
+                onSummarizeText={handleSummarizeText}
+                onSummarizeFile={handleSummarizeFile}
+            />
             <SummaryDisplay summary={summary} />
         </div>
     );
