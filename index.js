@@ -4,6 +4,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 const authMiddleware = require('./middlewares/authMiddleware');
+const fileUploadMiddleware = require('./middlewares/fileUploadMiddleware'); // Import file upload middleware
+const summaryController = require('./controllers/summaryController'); // Import controller
 const Summary = require('./models/Summary');
 const sequelize = require('./config/db'); // Ensure the correct import
 const axios = require('axios');
@@ -20,7 +22,9 @@ app.use(bodyParser.json());
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
+const summaryRoutes = require('./routes/summaryRoutes');
 app.use('/api/auth', authRoutes);
+app.use('/api/summarize', summaryRoutes); // Attach summaryRoutes
 
 // Static File Serving
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -30,7 +34,15 @@ app.get('/', (req, res) => {
     res.send('Welcome to the AI-Powered Content Summarizer API!');
 });
 
-// Summarization Route
+// File Upload Route (Directly added for simplicity)
+app.post(
+    '/api/summarize/file',
+    authMiddleware,
+    fileUploadMiddleware.single('file'), // Handle file upload
+    summaryController.summarizeFile // Process file summarization
+);
+
+// Text Summarization Route
 app.post('/api/summarize', authMiddleware, async (req, res) => {
     try {
         const { content } = req.body;
@@ -38,16 +50,16 @@ app.post('/api/summarize', authMiddleware, async (req, res) => {
             return res.status(400).json({ error: 'Content is required for summarization.' });
         }
 
-        // Call OpenAI API for summarization
+        // Call OpenAI API for summarization with increased max_tokens
         const response = await axios.post(
             'https://api.openai.com/v1/chat/completions',
             {
-                model: 'gpt-4o-mini',
+                model: 'gpt-4', // Desired model
                 messages: [
                     { role: 'system', content: 'You are a professional text summarizer.' },
                     { role: 'user', content: `Summarize this content in a concise and clear way:\n\n${content}` },
                 ],
-                max_tokens: 200,
+                max_tokens: 500, // Increased from 200 to 500 for longer summaries
                 temperature: 0.5,
             },
             {
