@@ -8,6 +8,7 @@ const fileUploadMiddleware = require('./middlewares/fileUploadMiddleware');
 const Summary = require('./models/Summary');
 const sequelize = require('./config/db');
 const axios = require('axios');
+const summaryController = require('./controllers/summaryController'); // Import controller
 
 // Load environment variables
 dotenv.config();
@@ -34,6 +35,14 @@ app.get('/', (req, res) => {
 });
 
 // File Upload Route
+app.post(
+    '/api/summarize/file', // Route for file uploads
+    authMiddleware, // Authentication middleware
+    fileUploadMiddleware.single('file'), // Middleware to handle file uploads
+    summaryController.summarizeFile // Controller to process and summarize the uploaded file
+);
+
+// Text Summarization Route
 app.post('/api/summarize', authMiddleware, async (req, res) => {
     console.log('POST /api/summarize route hit'); // Log this to confirm the request is received
 
@@ -66,8 +75,8 @@ app.post('/api/summarize', authMiddleware, async (req, res) => {
                         content: `Summarize this content clearly and concisely:\n\n${content}`,
                     },
                 ],
-                max_tokens: 500, // Allow room for balanced summaries
-                temperature: 0.5, // Slightly increased temperature for balance
+                max_tokens: 500,
+                temperature: 0.5,
             },
             {
                 headers: {
