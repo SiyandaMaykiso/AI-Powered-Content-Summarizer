@@ -5,29 +5,35 @@ const SummaryDisplay = ({ summary }) => {
         <div
             style={{
                 marginTop: '20px',
-                padding: '20px',
+                padding: '30px', // Increase padding for better spacing
                 border: '1px solid #ccc',
                 borderRadius: '8px',
-                backgroundColor: '#f9f9f9', // Light background for better contrast
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Subtle shadow for an elevated look
+                minHeight: '300px', // Ensure a minimum height for large content
+                overflowY: 'auto', // Add vertical scrolling for long summaries
+                maxHeight: '600px', // Optional: Limit the maximum height
+                backgroundColor: '#f9f9f9', // Light background for readability
             }}
         >
-            <h2 style={{ textAlign: 'center', color: '#1565c0', marginBottom: '15px' }}>Summary</h2>
+            <h2 style={{ textAlign: 'center', color: '#333' }}>Summary</h2>
             {summary ? (
                 <p
                     style={{
-                        fontSize: '1rem',
-                        lineHeight: '1.6',
-                        color: '#333',
-                        whiteSpace: 'pre-wrap', // Handles multiline text
-                        wordWrap: 'break-word', // Breaks long words or URLs
-                        textAlign: 'justify', // Improves readability for longer text
+                        fontSize: '1.2rem', // Slightly larger font for clarity
+                        lineHeight: '1.8', // More space between lines
+                        color: '#555',
+                        whiteSpace: 'pre-wrap', // Preserve whitespace and line breaks
                     }}
                 >
                     {summary}
                 </p>
             ) : (
-                <p style={{ fontSize: '1rem', color: '#888', textAlign: 'center' }}>
+                <p
+                    style={{
+                        fontSize: '1rem',
+                        color: '#888',
+                        textAlign: 'center',
+                    }}
+                >
                     No summary available yet. Please input content to summarize.
                 </p>
             )}

@@ -8,14 +8,19 @@ const SummaryApp = () => {
 
     const handleSummarizeText = async (content) => {
         try {
+            // Ensure the request is sent
+            console.log('Sending request to /summarize with content:', content);
+
             const response = await api.post('/summarize', { content }, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`, // Include token if needed
                 },
             });
 
+            console.log('API Response:', response.data);
+
             if (response.status === 200) {
-                setSummary(response.data.summary);
+                setSummary(response.data.summary); // Update the summary state
             } else {
                 console.error('Failed to fetch summary');
             }
@@ -29,6 +34,8 @@ const SummaryApp = () => {
             const formData = new FormData();
             formData.append('file', file);
 
+            console.log('Sending file request to /summarize/file with file:', file.name);
+
             const response = await api.post('/summarize/file', formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('authToken')}`,
@@ -36,8 +43,10 @@ const SummaryApp = () => {
                 },
             });
 
+            console.log('API Response:', response.data);
+
             if (response.status === 200) {
-                setSummary(response.data.summary);
+                setSummary(response.data.summary); // Update the summary state
             } else {
                 console.error('Failed to fetch file summary');
             }
