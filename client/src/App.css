@@ -1,3 +1,4 @@
+/* Global App Styles */
 .App {
   text-align: center;
   padding: 20px;
@@ -10,15 +11,17 @@ textarea {
   margin: 10px 0;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
+  background-color: var(--textarea-bg);
+  color: var(--text-color);
 }
 
 button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--button-bg);
+  color: var(--button-text);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -26,12 +29,12 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: var(--button-hover-bg);
   transform: scale(1.05); /* Slight zoom effect on hover */
 }
 
 button:active {
-  background-color: #003f7f;
+  background-color: var(--button-active-bg);
   transform: scale(1); /* Reset scale on click */
 }
 
@@ -58,4 +61,34 @@ button:active {
   color: green;
   margin-top: 10px;
   font-size: 14px;
+}
+
+/* Theme Variables */
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --button-bg: #007bff;
+  --button-hover-bg: #0056b3;
+  --button-active-bg: #003f7f;
+  --button-text: #ffffff;
+  --textarea-bg: #f9f9f9;
+  --border-color: #ccc;
+}
+
+[data-theme="dark"] {
+  --background-color: #121212;
+  --text-color: #e0e0e0;
+  --button-bg: #1e88e5;
+  --button-hover-bg: #1565c0;
+  --button-active-bg: #0d47a1;
+  --button-text: #ffffff;
+  --textarea-bg: #2c2c2c;
+  --border-color: #444;
+}
+
+/* Apply Theme Styles */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

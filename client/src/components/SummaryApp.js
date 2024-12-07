@@ -10,6 +10,7 @@ const SummaryApp = () => {
     const [loading, setLoading] = useState(false); // Add loading state
     const [error, setError] = useState(null); // Add error state
     const [copied, setCopied] = useState(false); // Add copied state for clipboard feedback
+    const [theme, setTheme] = useState('light'); // Theme state
 
     const handleCopyToClipboard = () => {
         navigator.clipboard.writeText(summary)
@@ -23,23 +24,21 @@ const SummaryApp = () => {
     };
 
     const handleDownloadSummary = async () => {
-        // Create a new Word document
         const doc = new Document({
             sections: [
                 {
                     children: [
-                        new Paragraph("Summary"), // Add a title
-                        new Paragraph(summary), // Add the summary
+                        new Paragraph("Summary"),
+                        new Paragraph(summary),
                     ],
                 },
             ],
         });
 
-        // Convert document to a Blob
         const blob = await Packer.toBlob(doc);
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'summary.docx'; // Set the filename
+        link.download = 'summary.docx';
         link.click();
     };
 
@@ -48,24 +47,18 @@ const SummaryApp = () => {
         setError(null);
 
         try {
-            console.log('Sending request to /summarize with content:', content);
-
             const response = await api.post('/summarize', { content }, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('authToken')}`, // Include token if needed
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`,
                 },
             });
-
-            console.log('API Response:', response.data);
 
             if (response.status === 200) {
                 setSummary(response.data.summary);
             } else {
-                console.error('Failed to fetch summary');
                 setError('Failed to fetch summary.');
             }
         } catch (error) {
-            console.error('Error summarizing content:', error.message);
             setError('An error occurred while summarizing the content.');
         } finally {
             setLoading(false);
@@ -80,8 +73,6 @@ const SummaryApp = () => {
             const formData = new FormData();
             formData.append('file', file);
 
-            console.log('Sending file request to /summarize/file with file:', file.name);
-
             const response = await api.post('/summarize/file', formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('authToken')}`,
@@ -89,27 +80,43 @@ const SummaryApp = () => {
                 },
             });
 
-            console.log('API Response:', response.data);
-
             if (response.status === 200) {
                 setSummary(response.data.summary);
             } else {
-                console.error('Failed to fetch file summary');
                 setError('Failed to fetch file summary.');
             }
         } catch (error) {
-            console.error('Error summarizing file:', error.message);
             setError('An error occurred while summarizing the file.');
         } finally {
             setLoading(false);
         }
     };
 
+    const toggleTheme = () => {
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+        document.documentElement.setAttribute('data-theme', newTheme);
+    };
+
     return (
         <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-            <h1 style={{ textAlign: 'center', color: '#333' }}>AI-Powered Content Summarizer</h1>
+            <h1 style={{ textAlign: 'center', color: 'var(--text-color)' }}>AI-Powered Content Summarizer</h1>
 
-            {/* Show progress indicator while loading */}
+            <button
+                onClick={toggleTheme}
+                style={{
+                    padding: '10px 20px',
+                    backgroundColor: 'var(--button-bg)',
+                    color: 'var(--button-text)',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    marginBottom: '20px',
+                }}
+            >
+                Toggle {theme === 'light' ? 'Dark' : 'Light'} Mode
+            </button>
+
             {loading && (
                 <div style={{ textAlign: 'center' }}>
                     <CircularProgress />
@@ -117,10 +124,8 @@ const SummaryApp = () => {
                 </div>
             )}
 
-            {/* Show error message if any */}
             {error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
 
-            {/* Hide inputs and display summary when not loading */}
             {!loading && (
                 <>
                     <SummaryInput
