@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SummaryInput from './SummaryInput';
 import SummaryDisplay from './SummaryDisplay';
 import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress
+import { Document, Packer, Paragraph } from 'docx'; // Import docx for Word file generation
 import api from '../api'; // Ensure correct API instance import
 
 const SummaryApp = () => {
@@ -19,6 +20,27 @@ const SummaryApp = () => {
             .catch(err => {
                 console.error('Failed to copy text:', err.message);
             });
+    };
+
+    const handleDownloadSummary = async () => {
+        // Create a new Word document
+        const doc = new Document({
+            sections: [
+                {
+                    children: [
+                        new Paragraph("Summary"), // Add a title
+                        new Paragraph(summary), // Add the summary
+                    ],
+                },
+            ],
+        });
+
+        // Convert document to a Blob
+        const blob = await Packer.toBlob(doc);
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'summary.docx'; // Set the filename
+        link.click();
     };
 
     const handleSummarizeText = async (content) => {
@@ -117,9 +139,23 @@ const SummaryApp = () => {
                                     border: 'none',
                                     borderRadius: '5px',
                                     cursor: 'pointer',
+                                    marginRight: '10px',
                                 }}
                             >
                                 Copy to Clipboard
+                            </button>
+                            <button
+                                onClick={handleDownloadSummary}
+                                style={{
+                                    padding: '10px 20px',
+                                    backgroundColor: '#28a745',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                Download as Word Document
                             </button>
                             {copied && <p style={{ color: 'green', marginTop: '10px' }}>Copied to clipboard!</p>}
                         </div>

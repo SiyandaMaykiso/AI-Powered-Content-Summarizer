@@ -60,11 +60,26 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
 
             {/* File Summarization Form */}
             <form onSubmit={handleFileSubmit}>
+                <label
+                    style={{
+                        display: 'block',
+                        marginBottom: '5px',
+                        fontSize: '0.9rem',
+                        color: '#333',
+                    }}
+                >
+                    Upload a PDF or Word Doc file to summarize: (Max: 5 MB)
+                </label>
                 <input
                     type="file"
                     accept=".pdf,.docx"
                     onChange={(e) => setFile(e.target.files[0])}
-                    style={{ marginBottom: '10px' }}
+                    style={{
+                        display: 'block',
+                        marginBottom: '10px',
+                        padding: '5px',
+                        fontSize: '1rem',
+                    }}
                 />
                 <button
                     type="submit"
