@@ -10,6 +10,8 @@ textarea {
   margin: 10px 0;
   padding: 10px;
   font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 button {
@@ -20,10 +22,17 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
   background-color: #0056b3;
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+button:active {
+  background-color: #003f7f;
+  transform: scale(1); /* Reset scale on click */
 }
 
 /* Spinner CSS */
@@ -42,4 +51,11 @@ button:hover {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Feedback Message */
+.feedback {
+  color: green;
+  margin-top: 10px;
+  font-size: 14px;
 }

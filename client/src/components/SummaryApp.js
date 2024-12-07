@@ -8,10 +8,22 @@ const SummaryApp = () => {
     const [summary, setSummary] = useState('');
     const [loading, setLoading] = useState(false); // Add loading state
     const [error, setError] = useState(null); // Add error state
+    const [copied, setCopied] = useState(false); // Add copied state for clipboard feedback
+
+    const handleCopyToClipboard = () => {
+        navigator.clipboard.writeText(summary)
+            .then(() => {
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
+            })
+            .catch(err => {
+                console.error('Failed to copy text:', err.message);
+            });
+    };
 
     const handleSummarizeText = async (content) => {
-        setLoading(true); // Start loading indicator
-        setError(null); // Reset error state
+        setLoading(true);
+        setError(null);
 
         try {
             console.log('Sending request to /summarize with content:', content);
@@ -34,13 +46,13 @@ const SummaryApp = () => {
             console.error('Error summarizing content:', error.message);
             setError('An error occurred while summarizing the content.');
         } finally {
-            setLoading(false); // Stop loading indicator
+            setLoading(false);
         }
     };
 
     const handleSummarizeFile = async (file) => {
-        setLoading(true); // Start loading indicator
-        setError(null); // Reset error state
+        setLoading(true);
+        setError(null);
 
         try {
             const formData = new FormData();
@@ -67,7 +79,7 @@ const SummaryApp = () => {
             console.error('Error summarizing file:', error.message);
             setError('An error occurred while summarizing the file.');
         } finally {
-            setLoading(false); // Stop loading indicator
+            setLoading(false);
         }
     };
 
@@ -94,6 +106,24 @@ const SummaryApp = () => {
                         onSummarizeFile={handleSummarizeFile}
                     />
                     <SummaryDisplay summary={summary} />
+                    {summary && (
+                        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                            <button
+                                onClick={handleCopyToClipboard}
+                                style={{
+                                    padding: '10px 20px',
+                                    backgroundColor: '#007bff',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                Copy to Clipboard
+                            </button>
+                            {copied && <p style={{ color: 'green', marginTop: '10px' }}>Copied to clipboard!</p>}
+                        </div>
+                    )}
                 </>
             )}
         </div>
