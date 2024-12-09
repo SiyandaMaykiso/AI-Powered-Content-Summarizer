@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ThemeProvider, CssBaseline, Container, Button } from '@mui/material'; // Added CssBaseline and Container for global and responsive styling
+import { ThemeProvider, CssBaseline, Container, Button } from '@mui/material';
 import { lightTheme, darkTheme } from '../theme';
 import SummaryInput from './SummaryInput';
 import SummaryDisplay from './SummaryDisplay';
 import CircularProgress from '@mui/material/CircularProgress';
+import Footer from './Footer'; // Import the Footer component
 import { Document, Packer, Paragraph } from 'docx';
 import api from '../api';
 
@@ -126,6 +127,7 @@ const SummaryApp = () => {
                     </>
                 )}
             </Container>
+            <Footer /> {/* Add Footer component */}
         </ThemeProvider>
     );
 };
