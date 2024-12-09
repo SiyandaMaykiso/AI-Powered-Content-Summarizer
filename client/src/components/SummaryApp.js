@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider, CssBaseline, Container, Button } from '@mui/material'; // Added CssBaseline and Container for global and responsive styling
 import { lightTheme, darkTheme } from '../theme';
 import SummaryInput from './SummaryInput';
@@ -12,7 +12,12 @@ const SummaryApp = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [copied, setCopied] = useState(false);
-    const [theme, setTheme] = useState('light'); // Theme toggling
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light'); // Load theme from localStorage
+
+    useEffect(() => {
+        // Save theme preference to localStorage whenever it changes
+        localStorage.setItem('theme', theme);
+    }, [theme]);
 
     const handleCopyToClipboard = () => {
         navigator.clipboard.writeText(summary)

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
 
 const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
     const [content, setContent] = useState('');
     const [file, setFile] = useState(null);
     const [error, setError] = useState('');
+    const theme = useTheme(); // Access the current theme
 
     const handleTextSubmit = (e) => {
         e.preventDefault();
@@ -28,7 +30,16 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
     };
 
     return (
-        <div>
+        <div
+            style={{
+                backgroundColor: theme.palette.background.paper,
+                color: theme.palette.text.primary,
+                padding: '20px',
+                borderRadius: '8px',
+                marginBottom: '20px',
+                boxShadow: theme.palette.mode === 'dark' ? '0px 4px 10px rgba(0, 0, 0, 0.6)' : '0px 4px 10px rgba(0, 0, 0, 0.1)',
+            }}
+        >
             {/* Text Summarization Form */}
             <form onSubmit={handleTextSubmit} style={{ marginBottom: '20px' }}>
                 <textarea
@@ -42,16 +53,21 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
                         padding: '10px',
                         fontSize: '1rem',
                         marginBottom: '10px',
+                        borderRadius: '4px',
+                        backgroundColor: theme.palette.background.default,
+                        color: theme.palette.text.primary,
+                        border: `1px solid ${theme.palette.text.secondary}`,
                     }}
                 />
                 <button
                     type="submit"
                     style={{
                         padding: '10px 20px',
-                        backgroundColor: '#1565c0',
-                        color: '#fff',
+                        backgroundColor: theme.palette.primary.main,
+                        color: theme.palette.primary.contrastText,
                         border: 'none',
                         cursor: 'pointer',
+                        borderRadius: '4px',
                     }}
                 >
                     Summarize Text
@@ -65,7 +81,7 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
                         display: 'block',
                         marginBottom: '5px',
                         fontSize: '0.9rem',
-                        color: '#333',
+                        color: theme.palette.text.secondary,
                     }}
                 >
                     Upload a PDF or Word Doc file to summarize: (Max: 5 MB)
@@ -79,16 +95,21 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
                         marginBottom: '10px',
                         padding: '5px',
                         fontSize: '1rem',
+                        backgroundColor: theme.palette.background.default,
+                        color: theme.palette.text.primary,
+                        border: `1px solid ${theme.palette.text.secondary}`,
+                        borderRadius: '4px',
                     }}
                 />
                 <button
                     type="submit"
                     style={{
                         padding: '10px 20px',
-                        backgroundColor: '#1565c0',
-                        color: '#fff',
+                        backgroundColor: theme.palette.primary.main,
+                        color: theme.palette.primary.contrastText,
                         border: 'none',
                         cursor: 'pointer',
+                        borderRadius: '4px',
                     }}
                 >
                     Summarize File
@@ -96,7 +117,7 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
             </form>
 
             {/* Error Message */}
-            {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+            {error && <p style={{ color: theme.palette.error.main, marginTop: '10px' }}>{error}</p>}
         </div>
     );
 };
