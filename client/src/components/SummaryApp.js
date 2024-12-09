@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import { lightTheme, darkTheme } from '../theme'; // Import themes from theme.js
 import SummaryInput from './SummaryInput';
 import SummaryDisplay from './SummaryDisplay';
-import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress
-import { Document, Packer, Paragraph } from 'docx'; // Import docx for Word file generation
-import api from '../api'; // Ensure correct API instance import
+import CircularProgress from '@mui/material/CircularProgress';
+import { Document, Packer, Paragraph } from 'docx';
+import api from '../api';
 
 const SummaryApp = () => {
     const [summary, setSummary] = useState('');
-    const [loading, setLoading] = useState(false); // Add loading state
-    const [error, setError] = useState(null); // Add error state
-    const [copied, setCopied] = useState(false); // Add copied state for clipboard feedback
-    const [theme, setTheme] = useState('light'); // Theme state
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [copied, setCopied] = useState(false);
+    const [theme, setTheme] = useState('light');
 
     const handleCopyToClipboard = () => {
         navigator.clipboard.writeText(summary)
             .then(() => {
                 setCopied(true);
-                setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
+                setTimeout(() => setCopied(false), 2000);
             })
-            .catch(err => {
-                console.error('Failed to copy text:', err.message);
-            });
+            .catch((err) => console.error('Failed to copy text:', err.message));
     };
 
     const handleDownloadSummary = async () => {
@@ -93,81 +93,83 @@ const SummaryApp = () => {
     };
 
     const toggleTheme = () => {
-        const newTheme = theme === 'light' ? 'dark' : 'light';
-        setTheme(newTheme);
-        document.documentElement.setAttribute('data-theme', newTheme);
+        setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-            <h1 style={{ textAlign: 'center', color: 'var(--text-color)' }}>AI-Powered Content Summarizer</h1>
+        <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+            <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+                <h1 style={{ textAlign: 'center', color: theme === 'light' ? '#333' : '#e0e0e0' }}>
+                    AI-Powered Content Summarizer
+                </h1>
 
-            <button
-                onClick={toggleTheme}
-                style={{
-                    padding: '10px 20px',
-                    backgroundColor: 'var(--button-bg)',
-                    color: 'var(--button-text)',
-                    border: 'none',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                    marginBottom: '20px',
-                }}
-            >
-                Toggle {theme === 'light' ? 'Dark' : 'Light'} Mode
-            </button>
+                <button
+                    onClick={toggleTheme}
+                    style={{
+                        padding: '10px 20px',
+                        backgroundColor: theme === 'light' ? '#007bff' : '#1e88e5',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        marginBottom: '20px',
+                    }}
+                >
+                    Toggle {theme === 'light' ? 'Dark' : 'Light'} Mode
+                </button>
 
-            {loading && (
-                <div style={{ textAlign: 'center' }}>
-                    <CircularProgress />
-                    <p style={{ color: 'blue' }}>Processing your request...</p>
-                </div>
-            )}
+                {loading && (
+                    <div style={{ textAlign: 'center' }}>
+                        <CircularProgress />
+                        <p style={{ color: 'blue' }}>Processing your request...</p>
+                    </div>
+                )}
 
-            {error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
+                {error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
 
-            {!loading && (
-                <>
-                    <SummaryInput
-                        onSummarizeText={handleSummarizeText}
-                        onSummarizeFile={handleSummarizeFile}
-                    />
-                    <SummaryDisplay summary={summary} />
-                    {summary && (
-                        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                            <button
-                                onClick={handleCopyToClipboard}
-                                style={{
-                                    padding: '10px 20px',
-                                    backgroundColor: '#007bff',
-                                    color: '#fff',
-                                    border: 'none',
-                                    borderRadius: '5px',
-                                    cursor: 'pointer',
-                                    marginRight: '10px',
-                                }}
-                            >
-                                Copy to Clipboard
-                            </button>
-                            <button
-                                onClick={handleDownloadSummary}
-                                style={{
-                                    padding: '10px 20px',
-                                    backgroundColor: '#28a745',
-                                    color: '#fff',
-                                    border: 'none',
-                                    borderRadius: '5px',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                Download as Word Document
-                            </button>
-                            {copied && <p style={{ color: 'green', marginTop: '10px' }}>Copied to clipboard!</p>}
-                        </div>
-                    )}
-                </>
-            )}
-        </div>
+                {!loading && (
+                    <>
+                        <SummaryInput
+                            onSummarizeText={handleSummarizeText}
+                            onSummarizeFile={handleSummarizeFile}
+                        />
+                        <SummaryDisplay summary={summary} />
+                        {summary && (
+                            <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                                <button
+                                    onClick={handleCopyToClipboard}
+                                    style={{
+                                        padding: '10px 20px',
+                                        backgroundColor: '#007bff',
+                                        color: '#fff',
+                                        border: 'none',
+                                        borderRadius: '5px',
+                                        cursor: 'pointer',
+                                        marginRight: '10px',
+                                    }}
+                                >
+                                    Copy to Clipboard
+                                </button>
+                                <button
+                                    onClick={handleDownloadSummary}
+                                    style={{
+                                        padding: '10px 20px',
+                                        backgroundColor: '#28a745',
+                                        color: '#fff',
+                                        border: 'none',
+                                        borderRadius: '5px',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    Download as Word Document
+                                </button>
+                                {copied && <p style={{ color: 'green', marginTop: '10px' }}>Copied to clipboard!</p>}
+                            </div>
+                        )}
+                    </>
+                )}
+            </div>
+        </ThemeProvider>
     );
 };
 
