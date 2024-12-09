@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import { lightTheme, darkTheme } from '../theme'; // Import themes from theme.js
+import { ThemeProvider, CssBaseline, Container, Button } from '@mui/material'; // Added CssBaseline and Container for global and responsive styling
+import { lightTheme, darkTheme } from '../theme';
 import SummaryInput from './SummaryInput';
 import SummaryDisplay from './SummaryDisplay';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -12,7 +12,7 @@ const SummaryApp = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [copied, setCopied] = useState(false);
-    const [theme, setTheme] = useState('light');
+    const [theme, setTheme] = useState('light'); // Theme toggling
 
     const handleCopyToClipboard = () => {
         navigator.clipboard.writeText(summary)
@@ -65,110 +65,62 @@ const SummaryApp = () => {
         }
     };
 
-    const handleSummarizeFile = async (file) => {
-        setLoading(true);
-        setError(null);
-
-        try {
-            const formData = new FormData();
-            formData.append('file', file);
-
-            const response = await api.post('/summarize/file', formData, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            if (response.status === 200) {
-                setSummary(response.data.summary);
-            } else {
-                setError('Failed to fetch file summary.');
-            }
-        } catch (error) {
-            setError('An error occurred while summarizing the file.');
-        } finally {
-            setLoading(false);
-        }
-    };
-
     const toggleTheme = () => {
         setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
     };
 
     return (
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-            <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-                <h1 style={{ textAlign: 'center', color: theme === 'light' ? '#333' : '#e0e0e0' }}>
-                    AI-Powered Content Summarizer
-                </h1>
-
-                <button
+            <CssBaseline />
+            <Container maxWidth="md" style={{ padding: '20px', textAlign: 'center' }}>
+                <h1>AI-Powered Content Summarizer</h1>
+                <Button
+                    variant="contained"
                     onClick={toggleTheme}
-                    style={{
-                        padding: '10px 20px',
-                        backgroundColor: theme === 'light' ? '#007bff' : '#1e88e5',
-                        color: '#fff',
-                        border: 'none',
-                        borderRadius: '5px',
-                        cursor: 'pointer',
-                        marginBottom: '20px',
-                    }}
+                    style={{ marginBottom: '20px' }}
                 >
                     Toggle {theme === 'light' ? 'Dark' : 'Light'} Mode
-                </button>
+                </Button>
 
                 {loading && (
-                    <div style={{ textAlign: 'center' }}>
+                    <div>
                         <CircularProgress />
                         <p style={{ color: 'blue' }}>Processing your request...</p>
                     </div>
                 )}
 
-                {error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
 
                 {!loading && (
                     <>
                         <SummaryInput
                             onSummarizeText={handleSummarizeText}
-                            onSummarizeFile={handleSummarizeFile}
+                            onSummarizeFile={(file) => console.log('File upload:', file)}
                         />
                         <SummaryDisplay summary={summary} />
                         {summary && (
-                            <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                                <button
+                            <div>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
                                     onClick={handleCopyToClipboard}
-                                    style={{
-                                        padding: '10px 20px',
-                                        backgroundColor: '#007bff',
-                                        color: '#fff',
-                                        border: 'none',
-                                        borderRadius: '5px',
-                                        cursor: 'pointer',
-                                        marginRight: '10px',
-                                    }}
+                                    style={{ marginRight: '10px' }}
                                 >
                                     Copy to Clipboard
-                                </button>
-                                <button
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="success"
                                     onClick={handleDownloadSummary}
-                                    style={{
-                                        padding: '10px 20px',
-                                        backgroundColor: '#28a745',
-                                        color: '#fff',
-                                        border: 'none',
-                                        borderRadius: '5px',
-                                        cursor: 'pointer',
-                                    }}
                                 >
                                     Download as Word Document
-                                </button>
-                                {copied && <p style={{ color: 'green', marginTop: '10px' }}>Copied to clipboard!</p>}
+                                </Button>
+                                {copied && <p style={{ color: 'green' }}>Copied to clipboard!</p>}
                             </div>
                         )}
                     </>
                 )}
-            </div>
+            </Container>
         </ThemeProvider>
     );
 };
