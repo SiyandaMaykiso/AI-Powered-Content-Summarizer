@@ -1,14 +1,15 @@
 {
   "name": "ai-powered-content-summarizer",
   "version": "1.0.0",
-  "description": "## Project Overview",
+  "description": "AI-Powered Content Summarizer",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "server": "nodemon index.js",
     "client": "cd client && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
