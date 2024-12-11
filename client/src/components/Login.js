@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Box, Alert } from '@mui/material';
-import api from '../api';
+import axios from 'axios';
 
 const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // Define the base URL from the environment variable
+    const API_URL = process.env.REACT_APP_API_URL;
+
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await api.post('/auth/login', { username, password });
+            const response = await axios.post(`${API_URL}/auth/login`, { username, password });
             const { token } = response.data;
 
             // Save the token to localStorage
