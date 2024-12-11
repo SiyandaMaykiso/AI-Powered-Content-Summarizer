@@ -17,7 +17,16 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:3000' }));
+app.use(
+    cors({
+        origin: [
+            process.env.FRONTEND_URL || 'http://localhost:3000', // Allow the frontend URL
+            'https://ai-powered-content-summarizer-71f343ba410f.herokuapp.com' // Explicitly allow the deployed frontend
+        ],
+        methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
+        credentials: true, // Enable cookies and authorization headers
+    })
+);
 app.use(bodyParser.json());
 
 // Routes
@@ -131,6 +140,6 @@ sequelize
             console.log(`Server is running on port ${PORT}`);
         });
     })
-    .catch(err => {
+    .catch((err) => {
         console.error('Unable to connect to the database or sync models:', err.message);
     });
