@@ -20,8 +20,7 @@ const app = express();
 app.use(
     cors({
         origin: [
-            process.env.FRONTEND_URL || 'http://localhost:3000', // Allow the frontend URL
-            'https://ai-powered-content-summarizer-71f343ba410f.herokuapp.com' // Explicitly allow the deployed frontend
+            process.env.FRONTEND_URL, // Allow the production frontend URL
         ],
         methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
         credentials: true, // Enable cookies and authorization headers
@@ -45,20 +44,17 @@ app.get('/', (req, res) => {
 
 // File Upload Route
 app.post(
-    '/api/summarize/file', // Route for file uploads
-    authMiddleware, // Authentication middleware
-    fileUploadMiddleware.single('file'), // Middleware to handle file uploads
-    summaryController.summarizeFile // Controller to process and summarize the uploaded file
+    '/api/summarize/file',
+    authMiddleware,
+    fileUploadMiddleware.single('file'),
+    summaryController.summarizeFile
 );
 
 // Text Summarization Route
 app.post('/api/summarize', authMiddleware, async (req, res) => {
-    console.log('POST /api/summarize route hit'); // Log this to confirm the request is received
-
     try {
         const { content } = req.body;
         if (!content) {
-            console.log('Request is missing content field');
             return res.status(400).json({ error: 'Content is required for summarization.' });
         }
 
@@ -95,9 +91,6 @@ app.post('/api/summarize', authMiddleware, async (req, res) => {
             }
         );
 
-        console.log('Raw API Response:', response.data.choices[0].message.content); // Log the raw API response
-
-        // Extract summary
         const summary = response.data.choices[0].message.content.trim();
 
         // Update the saved input with the generated summary
@@ -106,7 +99,6 @@ app.post('/api/summarize', authMiddleware, async (req, res) => {
 
         res.json({ summary });
     } catch (error) {
-        console.error('Error summarizing content:', error.message);
         res.status(500).json({ error: 'Failed to summarize content' });
     }
 });
@@ -117,7 +109,6 @@ app.get('/api/summaryhistory', authMiddleware, async (req, res) => {
         const summaries = await Summary.findAll({ where: { userId: req.user.id } });
         res.json({ summaryHistory: summaries });
     } catch (error) {
-        console.error('Error fetching summary history:', error.message);
         res.status(500).json({ error: 'An error occurred while fetching summary history' });
     }
 });
@@ -130,10 +121,7 @@ app.get('*', (req, res) => {
 // Sync Database and Start Server
 sequelize
     .authenticate()
-    .then(() => {
-        console.log('Database connected successfully.');
-        return sequelize.sync({ force: false });
-    })
+    .then(() => sequelize.sync({ force: false }))
     .then(() => {
         const PORT = process.env.PORT || 3001;
         app.listen(PORT, () => {
