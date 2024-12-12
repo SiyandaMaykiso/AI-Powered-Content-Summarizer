@@ -1,19 +1,16 @@
-// src/api.js
 import axios from 'axios';
 
-// Set the base URL dynamically from the environment variable
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+// Replace this import
+// import api from './api';
 
-// Check if the API_BASE_URL is defined
-if (!API_BASE_URL) {
-    console.error("REACT_APP_API_URL is not defined in the environment variables. Please set it in your .env file.");
-    throw new Error("API base URL is missing. Ensure REACT_APP_API_URL is defined.");
-}
+// Use Axios directly
+const fetchData = async () => {
+    try {
+        const response = await axios.get('https://ai-powered-content-summarizer-71f343ba410f.herokuapp.com/api/some-endpoint');
+        console.log(response.data);
+    } catch (error) {
+        console.error(error);
+    }
+};
 
-// Create an Axios instance with the correct base URL
-const api = axios.create({
-    baseURL: API_BASE_URL, // Use the environment variable for production
-});
-
-// Export the Axios instance
-export default api;
+fetchData();
