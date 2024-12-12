@@ -7,7 +7,7 @@ const Footer = () => {
     return (
         <footer
             style={{
-                position: 'fixed',
+                position: 'relative', // Change to relative
                 bottom: 0,
                 left: 0,
                 width: '100%',
