@@ -1,7 +1,11 @@
 .
+├── .env
+├── .gitignore
 ├── Procfile
 ├── README.md
 ├── client
+│   ├── .env
+│   ├── .gitignore
 │   ├── README.md
 │   ├── package-lock.json
 │   ├── package.json
@@ -19,19 +23,24 @@
 │       ├── AppRouter.js
 │       ├── api.js
 │       ├── components
+│       │   ├── Footer.js
 │       │   ├── Header.js
 │       │   ├── Home.js
 │       │   ├── Login.js
 │       │   ├── Navbar.js
+│       │   ├── ProtectedRoute.js
 │       │   ├── RecommendationList.js
 │       │   ├── Register.js
+│       │   ├── SummaryApp.js
 │       │   ├── SummaryDisplay.js
+│       │   ├── SummaryHistory.js
 │       │   └── SummaryInput.js
 │       ├── index.css
 │       ├── index.js
 │       ├── logo.svg
 │       ├── reportWebVitals.js
-│       └── setupTests.js
+│       ├── setupTests.js
+│       └── theme.js
 ├── config
 │   ├── config.js
 │   └── db.js
@@ -40,7 +49,8 @@
 │   └── summaryController.js
 ├── index.js
 ├── middlewares
-│   └── authMiddleware.js
+│   ├── authMiddleware.js
+│   └── fileUploadMiddleware.js
 ├── models
 │   ├── Summary.js
 │   └── User.js
@@ -51,4 +61,4 @@
     ├── authRoutes.js
     └── summaryRoutes.js
 
-10 directories, 42 files
+10 directories, 52 files
