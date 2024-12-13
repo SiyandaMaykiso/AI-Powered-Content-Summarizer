@@ -11,13 +11,20 @@ This project is part of my portfolio to demonstrate my skills in building AI-dri
 ## Screenshots
 
 ### Home Page
-![Home Page](https://github.com/SiyandaMaykiso/AI-Powered-Content-Summarizer/blob/main/screenshots/Home_Page_Screenshot.png)
+![Home Page](https://github.com/SiyandaMaykiso/AI-Powered-Content-Summarizer/blob/main/screenshots/Home_Page_AI_Powered_Content_Summarizer.png)
 
 ### Summary Display
-![Summary Display](https://github.com/SiyandaMaykiso/AI-Powered-Content-Summarizer/blob/main/screenshots/Summary_Display_Screenshot.png)
+![Summary Display](https://github.com/SiyandaMaykiso/AI-Powered-Content-Summarizer/blob/main/screenshots/Summarize_Page_AI_Content_Powered_Summarizer.png)
+
+### Dark Mode Summary Display
+![Dark Mode Summary Display](https://github.com/SiyandaMaykiso/AI-Powered-Content-Summarizer/blob/main/screenshots/Dark_Mode_Summarize_Page_AI_Powered_Content_Summarizer.png)
 
 ### Summary History
-![Summary History](https://github.com/SiyandaMaykiso/AI-Powered-Content-Summarizer/blob/main/screenshots/Summary_Display_Screenshot.png)
+![Summary History](https://github.com/SiyandaMaykiso/AI-Powered-Content-Summarizer/blob/main/screenshots/Summarize_History_AI_Powered_Content_Summarizer.png)
+
+### Dark Mode Summary History
+![Dark Mode Summary History](https://github.com/SiyandaMaykiso/AI-Powered-Content-Summarizer/blob/main/screenshots/Dark_Mode_Summarize_History_AI_Powered_Content_Summarizer.png)
+
 
 
 ## Features
