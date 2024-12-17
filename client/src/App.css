@@ -1,4 +1,4 @@
-/* Global App Styles */
+
 .App {
   text-align: center;
   padding: 20px;
@@ -30,15 +30,15 @@ button {
 
 button:hover {
   background-color: var(--button-hover-bg);
-  transform: scale(1.05); /* Slight zoom effect on hover */
+  transform: scale(1.05); 
 }
 
 button:active {
   background-color: var(--button-active-bg);
-  transform: scale(1); /* Reset scale on click */
+  transform: scale(1); 
 }
 
-/* Spinner CSS */
+
 .spinner {
   display: inline-block;
   width: 40px;
@@ -56,14 +56,14 @@ button:active {
   }
 }
 
-/* Feedback Message */
+
 .feedback {
   color: green;
   margin-top: 10px;
   font-size: 14px;
 }
 
-/* Theme Variables */
+
 :root {
   --background-color: #ffffff;
   --text-color: #000000;
@@ -86,7 +86,7 @@ button:active {
   --border-color: #444;
 }
 
-/* Apply Theme Styles */
+
 body {
   background-color: var(--background-color);
   color: var(--text-color);

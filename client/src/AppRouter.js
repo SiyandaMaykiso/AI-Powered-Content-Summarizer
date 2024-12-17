@@ -6,21 +6,21 @@ import Home from './components/Home';
 import Navbar from './components/Navbar';
 import SummaryApp from './components/SummaryApp';
 import SummaryHistory from './components/SummaryHistory';
-import ProtectedRoute from './components/ProtectedRoute'; // Import the ProtectedRoute component
+import ProtectedRoute from './components/ProtectedRoute'; 
 
 const AppRouter = () => {
-    // Define the onLogin function
+    
     const handleLogin = (token) => {
         console.log('User logged in, token:', token);
-        // Store the token in localStorage for authentication purposes
+        
         localStorage.setItem('authToken', token);
     };
 
     return (
         <Router>
-            <Navbar /> {/* Add the Navbar */}
+            <Navbar /> {}
             <Routes>
-                <Route path="/" element={<Home onLogin={handleLogin} />} /> {/* Pass onLogin */}
+                <Route path="/" element={<Home onLogin={handleLogin} />} /> {}
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login onLogin={handleLogin} />} />
                 <Route

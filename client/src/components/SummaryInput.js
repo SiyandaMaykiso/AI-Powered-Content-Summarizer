@@ -5,14 +5,14 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
     const [content, setContent] = useState('');
     const [file, setFile] = useState(null);
     const [error, setError] = useState('');
-    const theme = useTheme(); // Access the current theme
+    const theme = useTheme(); 
 
     const handleTextSubmit = (e) => {
         e.preventDefault();
         if (content.trim()) {
             setError('');
-            onSummarizeText(content); // Call the onSummarizeText function passed as a prop
-            setContent(''); // Clear the text input field
+            onSummarizeText(content); 
+            setContent(''); 
         } else {
             setError('Content cannot be empty.');
         }
@@ -22,8 +22,8 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
         e.preventDefault();
         if (file) {
             setError('');
-            onSummarizeFile(file); // Call the onSummarizeFile function passed as a prop
-            setFile(null); // Clear the file input
+            onSummarizeFile(file); 
+            setFile(null); 
         } else {
             setError('Please select a file to upload.');
         }
@@ -40,7 +40,7 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
                 boxShadow: theme.palette.mode === 'dark' ? '0px 4px 10px rgba(0, 0, 0, 0.6)' : '0px 4px 10px rgba(0, 0, 0, 0.1)',
             }}
         >
-            {/* Text Summarization Form */}
+            {}
             <form onSubmit={handleTextSubmit} style={{ marginBottom: '20px' }}>
                 <textarea
                     placeholder="Enter content to summarize..."
@@ -74,7 +74,7 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
                 </button>
             </form>
 
-            {/* File Summarization Form */}
+            {}
             <form onSubmit={handleFileSubmit}>
                 <label
                     style={{
@@ -116,7 +116,7 @@ const SummaryInput = ({ onSummarizeText, onSummarizeFile }) => {
                 </button>
             </form>
 
-            {/* Error Message */}
+            {}
             {error && <p style={{ color: theme.palette.error.main, marginTop: '10px' }}>{error}</p>}
         </div>
     );

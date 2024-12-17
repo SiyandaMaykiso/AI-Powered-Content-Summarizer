@@ -2,20 +2,20 @@ import { createTheme } from '@mui/material/styles';
 
 export const lightTheme = createTheme({
     palette: {
-        mode: 'light', // Light mode
+        mode: 'light', 
         primary: {
-            main: '#1565c0', // Blue
+            main: '#1565c0', 
         },
         secondary: {
-            main: '#ff9800', // Orange
+            main: '#ff9800', 
         },
         background: {
-            default: '#ffffff', // White background for the app
-            paper: '#f5f5f5', // Light gray background for cards/panels
+            default: '#ffffff', 
+            paper: '#f5f5f5', 
         },
         text: {
-            primary: '#333', // Dark gray text for main content
-            secondary: '#666', // Lighter gray for supporting text
+            primary: '#333', 
+            secondary: '#666', 
         },
     },
     typography: {
@@ -23,7 +23,7 @@ export const lightTheme = createTheme({
         h1: {
             fontSize: '2.5rem',
             fontWeight: 500,
-            color: '#333', // Ensure the heading adapts to the primary text color
+            color: '#333', 
         },
         h2: {
             fontSize: '2rem',
@@ -31,14 +31,14 @@ export const lightTheme = createTheme({
         },
         body1: {
             fontSize: '1rem',
-            color: '#333', // Body text uses primary text color
+            color: '#333', 
         },
     },
     components: {
         MuiButton: {
             styleOverrides: {
                 root: {
-                    textTransform: 'none', // Avoid uppercase transformation
+                    textTransform: 'none', 
                 },
             },
         },
@@ -47,20 +47,20 @@ export const lightTheme = createTheme({
 
 export const darkTheme = createTheme({
     palette: {
-        mode: 'dark', // Dark mode
+        mode: 'dark', 
         primary: {
-            main: '#1e88e5', // Lighter blue for contrast
+            main: '#1e88e5', 
         },
         secondary: {
-            main: '#ffb74d', // Lighter orange for highlights
+            main: '#ffb74d', 
         },
         background: {
-            default: '#121212', // Dark background for the app
-            paper: '#1e1e1e', // Slightly lighter dark gray for cards/panels
+            default: '#121212', 
+            paper: '#1e1e1e', 
         },
         text: {
-            primary: '#e0e0e0', // Light gray for main content
-            secondary: '#b0b0b0', // Dim gray for supporting text
+            primary: '#e0e0e0', 
+            secondary: '#b0b0b0', 
         },
     },
     typography: {
@@ -68,7 +68,7 @@ export const darkTheme = createTheme({
         h1: {
             fontSize: '2.5rem',
             fontWeight: 500,
-            color: '#e0e0e0', // Ensure the heading adapts to the primary text color
+            color: '#e0e0e0', 
         },
         h2: {
             fontSize: '2rem',
@@ -76,14 +76,14 @@ export const darkTheme = createTheme({
         },
         body1: {
             fontSize: '1rem',
-            color: '#e0e0e0', // Body text uses primary text color
+            color: '#e0e0e0', 
         },
     },
     components: {
         MuiButton: {
             styleOverrides: {
                 root: {
-                    textTransform: 'none', // Avoid uppercase transformation
+                    textTransform: 'none', 
                 },
             },
         },

@@ -2,19 +2,19 @@ import React from 'react';
 import { Box, Typography, Paper, Grid } from '@mui/material';
 import Login from './Login';
 import Register from './Register';
-import Footer from './Footer'; // Import the Footer component
+import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
 
 const Home = ({ onLogin }) => {
     const navigate = useNavigate();
 
     const handleLogin = (token) => {
-        onLogin(token); // Call the parent onLogin function
-        navigate('/summarize'); // Redirect to the summarize page
+        onLogin(token);
+        navigate('/summarize'); 
     };
 
     const handleRegister = () => {
-        navigate('/summarize'); // Redirect to the summarize page after registration
+        navigate('/summarize'); 
     };
 
     return (
@@ -26,7 +26,7 @@ const Home = ({ onLogin }) => {
                     padding: '20px',
                 }}
             >
-                {/* Welcome Header */}
+                {}
                 <Typography
                     variant="h3"
                     sx={{
@@ -47,9 +47,9 @@ const Home = ({ onLogin }) => {
                     Your one-stop solution for concise and clear text summarization.
                 </Typography>
 
-                {/* Forms Container */}
+                {}
                 <Grid container spacing={3} justifyContent="center">
-                    {/* Login Section */}
+                    {}
                     <Grid item xs={12} sm={6} md={4}>
                         <Paper
                             elevation={3}
@@ -72,7 +72,7 @@ const Home = ({ onLogin }) => {
                         </Paper>
                     </Grid>
 
-                    {/* Register Section */}
+                    {}
                     <Grid item xs={12} sm={6} md={4}>
                         <Paper
                             elevation={3}
@@ -96,7 +96,7 @@ const Home = ({ onLogin }) => {
                     </Grid>
                 </Grid>
             </Box>
-            <Footer /> {/* Include the Footer component */}
+            <Footer /> {}
         </>
     );
 };

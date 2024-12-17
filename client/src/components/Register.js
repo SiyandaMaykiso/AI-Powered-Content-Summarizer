@@ -14,16 +14,16 @@ const Register = ({ onRegister }) => {
             const response = await api.post('/auth/register', { username, password });
             const { message } = response.data;
 
-            // Display success message and clear error
+            
             setMessage(message);
             setError('');
 
-            // Redirect or trigger onRegister callback
+            
             onRegister();
         } catch (error) {
             console.error('Registration failed:', error.response?.data || error.message);
 
-            // Display error message and clear success message
+            
             setError('Registration failed. Please try again.');
             setMessage('');
         }
@@ -43,7 +43,7 @@ const Register = ({ onRegister }) => {
                 Register
             </Typography>
 
-            {/* Username Field */}
+            {}
             <TextField
                 label="Username"
                 variant="outlined"
@@ -53,7 +53,7 @@ const Register = ({ onRegister }) => {
                 fullWidth
             />
 
-            {/* Password Field */}
+            {}
             <TextField
                 label="Password"
                 type="password"
@@ -64,13 +64,13 @@ const Register = ({ onRegister }) => {
                 fullWidth
             />
 
-            {/* Success Message */}
+            {}
             {message && <Alert severity="success">{message}</Alert>}
 
-            {/* Error Message */}
+            {}
             {error && <Alert severity="error">{error}</Alert>}
 
-            {/* Submit Button */}
+            {}
             <Button
                 type="submit"
                 variant="contained"

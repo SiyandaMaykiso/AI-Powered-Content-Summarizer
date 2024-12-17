@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Box, Alert } from '@mui/material';
-import api from '../api'; // Import the centralized api instance
+import api from '../api'; 
 
 const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
@@ -10,17 +10,17 @@ const Login = ({ onLogin }) => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            // Use the centralized api instance for the POST request
+            
             const response = await api.post('/auth/login', { username, password });
             const { token } = response.data;
 
-            // Save the token to localStorage
+            
             localStorage.setItem('token', token);
 
-            // Call the onLogin function passed as a prop
+            
             onLogin(token);
 
-            // Clear any previous error messages
+            
             setErrorMessage('');
         } catch (error) {
             console.error('Login failed:', error.message);
@@ -42,7 +42,7 @@ const Login = ({ onLogin }) => {
                 Login
             </Typography>
 
-            {/* Username Field */}
+            {}
             <TextField
                 label="Username"
                 variant="outlined"
@@ -52,7 +52,7 @@ const Login = ({ onLogin }) => {
                 fullWidth
             />
 
-            {/* Password Field */}
+            {}
             <TextField
                 label="Password"
                 type="password"
@@ -63,10 +63,10 @@ const Login = ({ onLogin }) => {
                 fullWidth
             />
 
-            {/* Error Message */}
+            {}
             {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 
-            {/* Submit Button */}
+            {}
             <Button
                 type="submit"
                 variant="contained"

@@ -30,7 +30,7 @@ const App = () => {
         <Router>
             <div className="App">
                 <Header />
-                {/* Navigation Links */}
+                {}
                 <nav style={{ marginBottom: '20px', textAlign: 'center' }}>
                     <Link to="/" style={{ marginRight: '15px', textDecoration: 'none', color: '#1565c0' }}>
                         Home
@@ -39,7 +39,7 @@ const App = () => {
                         View History
                     </Link>
                 </nav>
-                {/* Routes */}
+                {}
                 <Routes>
                     <Route
                         path="/"

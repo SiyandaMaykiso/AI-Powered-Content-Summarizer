@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { ThemeProvider, CssBaseline, Button } from '@mui/material'; // Import Material-UI components
-import Footer from './Footer'; // Import the Footer component
-import { lightTheme, darkTheme } from '../theme'; // Import themes
+import { ThemeProvider, CssBaseline, Button } from '@mui/material'; 
+import Footer from './Footer'; 
+import { lightTheme, darkTheme } from '../theme'; 
 import api from '../api';
 
 const SummaryHistory = () => {
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light'); // Persist theme
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light'); 
 
     useEffect(() => {
-        // Save theme preference to localStorage whenever it changes
+        
         localStorage.setItem('theme', theme);
     }, [theme]);
 
@@ -21,10 +21,10 @@ const SummaryHistory = () => {
                 const token = localStorage.getItem('authToken');
                 const response = await api.get('/summaryhistory', {
                     headers: {
-                        Authorization: `Bearer ${token}`, // Pass the token for authentication
+                        Authorization: `Bearer ${token}`, 
                     },
                 });
-                setHistory(response.data.summaryHistory); // Set the fetched history
+                setHistory(response.data.summaryHistory); 
             } catch (err) {
                 setError('Failed to fetch summary history.');
                 console.error(err.message);
@@ -88,7 +88,7 @@ const SummaryHistory = () => {
                     )}
                 </ul>
             </div>
-            <Footer /> {/* Include the Footer component */}
+            <Footer /> {}
         </ThemeProvider>
     );
 };

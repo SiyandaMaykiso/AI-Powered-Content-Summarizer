@@ -6,8 +6,8 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('authToken'); // Clear the token
-        navigate('/'); // Redirect to Home page
+        localStorage.removeItem('authToken'); 
+        navigate('/'); 
     };
 
     return (
@@ -26,7 +26,7 @@ const Navbar = () => {
                     alignItems: 'center',
                 }}
             >
-                {/* App Title */}
+                {}
                 <Typography
                     variant="h6"
                     component={Link}
@@ -42,7 +42,7 @@ const Navbar = () => {
                     AI-Powered Content Summarizer
                 </Typography>
 
-                {/* Navigation Links */}
+                {}
                 <Box sx={{ display: 'flex', gap: { xs: '8px', sm: '16px' } }}>
                     <Button
                         color="inherit"

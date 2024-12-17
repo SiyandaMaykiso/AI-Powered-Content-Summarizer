@@ -4,7 +4,7 @@ import { lightTheme, darkTheme } from '../theme';
 import SummaryInput from './SummaryInput';
 import SummaryDisplay from './SummaryDisplay';
 import CircularProgress from '@mui/material/CircularProgress';
-import Footer from './Footer'; // Import the Footer component
+import Footer from './Footer'; 
 import { Document, Packer, Paragraph } from 'docx';
 import api from '../api';
 
@@ -13,10 +13,10 @@ const SummaryApp = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [copied, setCopied] = useState(false);
-    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light'); // Load theme from localStorage
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light'); 
 
     useEffect(() => {
-        // Save theme preference to localStorage whenever it changes
+        
         localStorage.setItem('theme', theme);
     }, [theme]);
 
@@ -127,7 +127,7 @@ const SummaryApp = () => {
                     </>
                 )}
             </Container>
-            <Footer /> {/* Add Footer component */}
+            <Footer /> {}
         </ThemeProvider>
     );
 };
