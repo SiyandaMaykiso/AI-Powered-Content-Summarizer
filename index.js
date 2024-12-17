@@ -8,41 +8,41 @@ const fileUploadMiddleware = require('./middlewares/fileUploadMiddleware');
 const Summary = require('./models/Summary');
 const sequelize = require('./config/db');
 const axios = require('axios');
-const summaryController = require('./controllers/summaryController'); // Import controller
+const summaryController = require('./controllers/summaryController'); 
 
-// Load environment variables
+
 dotenv.config();
 
-// Initialize Express app
+
 const app = express();
 
-// Middleware
+
 app.use(
     cors({
         origin: [
-            process.env.FRONTEND_URL, // Allow the production frontend URL
+            process.env.FRONTEND_URL, 
         ],
-        methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
-        credentials: true, // Enable cookies and authorization headers
+        methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+        credentials: true, 
     })
 );
 app.use(bodyParser.json());
 
-// Routes
+
 const authRoutes = require('./routes/authRoutes');
 const summaryRoutes = require('./routes/summaryRoutes');
 app.use('/api/auth', authRoutes);
 app.use('/api/summarize', summaryRoutes);
 
-// Static File Serving
+
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-// Root Route
+
 app.get('/', (req, res) => {
     res.send('Welcome to the AI-Powered Content Summarizer API!');
 });
 
-// File Upload Route
+
 app.post(
     '/api/summarize/file',
     authMiddleware,
@@ -50,7 +50,7 @@ app.post(
     summaryController.summarizeFile
 );
 
-// Text Summarization Route
+
 app.post('/api/summarize', authMiddleware, async (req, res) => {
     try {
         const { content } = req.body;
@@ -58,14 +58,14 @@ app.post('/api/summarize', authMiddleware, async (req, res) => {
             return res.status(400).json({ error: 'Content is required for summarization.' });
         }
 
-        // Save the input content in the database
+        
         const savedInput = await Summary.create({
             userId: req.user.id,
             content,
-            summary: null, // Placeholder until the summary is generated
+            summary: null, 
         });
 
-        // Call OpenAI API for summarization
+        
         const response = await axios.post(
             'https://api.openai.com/v1/chat/completions',
             {
@@ -93,7 +93,7 @@ app.post('/api/summarize', authMiddleware, async (req, res) => {
 
         const summary = response.data.choices[0].message.content.trim();
 
-        // Update the saved input with the generated summary
+        
         savedInput.summary = summary;
         await savedInput.save();
 
@@ -103,7 +103,7 @@ app.post('/api/summarize', authMiddleware, async (req, res) => {
     }
 });
 
-// Summary History Route
+
 app.get('/api/summaryhistory', authMiddleware, async (req, res) => {
     try {
         const summaries = await Summary.findAll({ where: { userId: req.user.id } });
@@ -113,12 +113,12 @@ app.get('/api/summaryhistory', authMiddleware, async (req, res) => {
     }
 });
 
-// Handle All Other Routes
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client/build/index.html'));
 });
 
-// Sync Database and Start Server
+
 sequelize
     .authenticate()
     .then(() => sequelize.sync({ force: false }))

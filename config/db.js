@@ -1,25 +1,25 @@
 const { Sequelize } = require('sequelize');
-require('dotenv').config(); // Load environment variables
+require('dotenv').config(); 
 
-// Ensure DATABASE_URL is defined
+
 if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL is not defined in the environment variables.');
 }
 
-// Create Sequelize instance
+
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
-  logging: false, // Set to 'console.log' for debugging SQL queries
+  logging: false, 
   dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false, // Allow self-signed certificates
+      rejectUnauthorized: false, 
     },
   },
 });
 
-// Verify database connection
+
 sequelize
   .authenticate()
   .then(() => {
@@ -27,7 +27,7 @@ sequelize
   })
   .catch((err) => {
     console.error('Unable to connect to the database:', err.message);
-    process.exit(1); // Exit the process with failure code
+    process.exit(1); 
   });
 
 module.exports = sequelize;

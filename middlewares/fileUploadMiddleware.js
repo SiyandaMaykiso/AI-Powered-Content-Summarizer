@@ -1,14 +1,14 @@
 const multer = require('multer');
 
-// Set up multer storage in memory (no persistent storage needed)
+
 const storage = multer.memoryStorage();
 
-// Set file size limits (optional)
+
 const limits = {
-    fileSize: 5 * 1024 * 1024, // Limit to 5 MB
+    fileSize: 5 * 1024 * 1024, 
 };
 
-// Filter file types (only PDFs and DOCX files allowed)
+
 const fileFilter = (req, file, cb) => {
     if (
         file.mimetype === 'application/pdf' ||
@@ -20,7 +20,7 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-// Create the multer instance
+
 const upload = multer({
     storage,
     limits,

@@ -1,10 +1,10 @@
-// Import necessary modules
-const Summary = require('../models/Summary'); // Import Summary model
-const pdfParse = require('pdf-parse'); // For PDF text extraction
-const mammoth = require('mammoth'); // For Word (.docx) text extraction
-const axios = require('axios'); // For API calls to OpenAI
 
-// Summarize text content using OpenAI API
+const Summary = require('../models/Summary'); 
+const pdfParse = require('pdf-parse'); 
+const mammoth = require('mammoth'); 
+const axios = require('axios'); 
+
+
 const summarizeContent = async (req, res) => {
   try {
     const { content } = req.body;
@@ -13,7 +13,7 @@ const summarizeContent = async (req, res) => {
       return res.status(400).json({ error: 'Content is required for summarization.' });
     }
 
-    // Call OpenAI API for summarization
+    
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
@@ -28,8 +28,8 @@ const summarizeContent = async (req, res) => {
             content: `Summarize this content briefly and clearly:\n\n${content}`,
           },
         ],
-        max_tokens: 500, // Moderate length for balanced summaries
-        temperature: 0.5, // Slightly increase creativity for balanced output
+        max_tokens: 500, 
+        temperature: 0.5, 
       },
       {
         headers: {
@@ -39,10 +39,10 @@ const summarizeContent = async (req, res) => {
       }
     );
 
-    // Extract summary from OpenAI API response
+    
     const summary = response.data.choices[0].message.content.trim();
 
-    // Save summary to database
+    
     const savedSummary = await Summary.create({ content, summary, userId: req.user.id });
 
     res.json({ summary: savedSummary.summary });
@@ -52,7 +52,7 @@ const summarizeContent = async (req, res) => {
   }
 };
 
-// Summarize content from uploaded file using OpenAI API
+
 const summarizeFile = async (req, res) => {
   try {
     if (!req.file) {
@@ -62,7 +62,7 @@ const summarizeFile = async (req, res) => {
     const file = req.file;
     let extractedText = '';
 
-    // Handle different file types
+    
     if (file.mimetype === 'application/pdf') {
       const pdfData = await pdfParse(file.buffer);
       extractedText = pdfData.text;
@@ -77,7 +77,7 @@ const summarizeFile = async (req, res) => {
       return res.status(400).json({ error: 'Failed to extract text from the file.' });
     }
 
-    // Call OpenAI API for summarization
+    
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
@@ -92,8 +92,8 @@ const summarizeFile = async (req, res) => {
             content: `Summarize this content briefly and clearly:\n\n${extractedText}`,
           },
         ],
-        max_tokens: 500, // Moderate length for balanced summaries
-        temperature: 0.7, // Slightly increase creativity for balanced output
+        max_tokens: 500, 
+        temperature: 0.5, 
       },
       {
         headers: {
